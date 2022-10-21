@@ -45,7 +45,7 @@ void add(int id, int sexo, int num_filhotes){
 void ver(){
     no * aux = inicio;
     for(int i=0; i<tam; i++){
-        printf("id: %d\n", aux->id);
+        printf("id: %d - sexo: %d - filhotes: %d\n", aux->id, aux->sexo, aux->num_filhotes);
         aux = aux->prox;
     }
 }
