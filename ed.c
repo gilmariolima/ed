@@ -48,14 +48,70 @@ void ver(){
         printf("id: %d\n", aux->id);
         aux = aux->prox;
     }
-    printf("ant: %d", inicio->ant->id);
+}
+
+void remover(int id){
+    no * lixo = inicio;
+    if(tam == 1 && inicio->id == id){
+        inicio = NULL;
+        free(lixo);
+        tam--;
+    }else if(tam == 2){
+        if(inicio->id == id){
+            inicio = inicio->prox;
+            inicio->prox = inicio;
+            inicio->ant = inicio;
+            free(lixo);
+            tam--;
+        }else if(inicio->prox->id == id){
+            lixo = inicio->prox;
+            inicio->prox = inicio;
+            inicio->ant = inicio;
+            free(lixo);
+            tam--;
+        }
+    }else{
+        if(inicio->id == id){
+            inicio->prox->ant = inicio->ant;
+            inicio->ant->prox = inicio->prox;
+            inicio = inicio->prox;
+            free(lixo);
+            tam--;
+        }else{
+            no * aux = inicio->prox;
+            while(aux->id != id && aux != inicio){
+                aux = aux->prox;
+            }
+            if(aux->id == id){
+                aux->ant->prox = aux->prox;
+                aux->prox->ant = aux->ant;
+                free(aux);
+                tam--;
+            }
+        }
+    }
+
+}
+
+int soma_filhotes(){
+    int soma = 0;
+    no * aux = inicio;
+    for(int i=0; i<tam; i++){
+        if(aux->sexo == 1)
+            soma = soma + aux->num_filhotes;
+        aux = aux->prox;
+    }
+    return soma;
 }
 
 int main(){
-    add(1, 1, 1);
-    add(2, 1, 1);
-    add(3, 1, 1);
-    add(4, 0, 0);
+    add(1,0,2);
+    add(2,1,2);
+    add(3,1,1);
+    add(4,0,1);
+    add(5,1,3);
+
     ver();
+    printf("Numero de filhotes: %d", soma_filhotes());
     return 0;
 }
